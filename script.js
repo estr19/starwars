@@ -46,7 +46,7 @@ function shuffleAnswers(multipleChoice) {
     j,
     i = elist.length;
   let e;
-  let echild;
+  // let echild;
   while (i--) {
     e = elist[i];
     let echilds = [];

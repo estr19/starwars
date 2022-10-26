@@ -20,14 +20,30 @@ body {
   z-index: -2;
 }
 
+#sentence {
+  display: flex;
+  justify-content: flex-start;
+  align-content: center;
+  background-color: black;
+  margin: 250px 50px 100px 50px;
+  color: #4bd5ee;
+  font-family: "News Cycle", sans-serif;
+  font-size: 100px;
+}
+
 .App {
   padding: 3em;
 }
 
 .profile {
-  background: rgba(204, 204, 204, .7);
+  background: rgba(204, 204, 204, .95);
   border-radius: 1em;
   color: #000;
+}
+
+.qquestion {
+  padding: 1em;
+  margin: 1em 0;
 }
 
 button {
@@ -36,6 +52,7 @@ button {
 
 ul {
   list-style-type: none;
+  margin: 0;
 }
 
 #quizButton {

@@ -1,8 +1,11 @@
-import { useCallback, useState } from "react";
+import { useCallback, useState, useRef } from "react";
 import Particles from "react-tsparticles";
 import { loadFull } from "tsparticles";
 import Swal from 'sweetalert2';
 import { questions } from "./questions";
+import cocky from './cocky.mp3';
+import faith from './faith.mp3';
+import throne from './throne.mp3';
 const answer = Math.floor(Math.random() * (905 - 895 + 1) + 895);
 
 function App() {
@@ -11,6 +14,9 @@ function App() {
   const [quizBtn, setQuizBtn] = useState('May the Force be with me!');
   const [displayGuess, setDisplayGuess] = useState('block');
   const [displayQuiz, setDisplayQuiz] = useState('none');
+  const winSong = useRef(new Audio(cocky));
+  const loseSong = useRef(new Audio(faith));
+  const winQuiz = useRef(new Audio(throne));
 
   const particlesInit = useCallback(async (engine) => {
     // console.log(engine);
@@ -31,7 +37,6 @@ function App() {
       j,
       i = elist.length;
     let e;
-    // let echild;
     while (i--) {
       e = elist[i];
       let echilds = [];
@@ -96,8 +101,7 @@ function App() {
           imageAlt: "Yoda try"
         });
       } else {
-        // document.querySelector("audio").src =
-        //   "https://cdn.glitch.com/0b63aad7-2a93-4811-b8ef-1383b4d21d7f%2Fgreat-kid!-don't-get-cocky.mp3";
+        winSong.current.play();
         Swal.fire({
           title: "You did it!",
           imageUrl:
@@ -109,7 +113,7 @@ function App() {
         });
         const guessPause = document.querySelector("button.swal2-confirm");
         guessPause.addEventListener("click", () => {
-          // document.querySelector("audio").pause();
+          winSong.current.pause();
           setDisplayGuess('none');
           shuffleAnswers('div>ul');
           setDisplayQuiz('block');
@@ -122,18 +126,17 @@ function App() {
   const result = (e) => {
     e.preventDefault();
     let points = 0;
-    // console.log(questions[0].value.checked);
-    // console.log(questions[0].correct);
-    // if (questions[0].value.checked === questions[0].correct) points++;
-    // if (questions[1].correct.checked === true) points++;
-    // if (questions[2].correct.checked === true) points++;
-    // if (questions[3].correct.checked === true) points++;
-    // if (questions[4].correct.checked === true) points++;
-    // if (points < 5) document.querySelector("audio").src = "https://cdn.glitch.com/0b63aad7-2a93-4811-b8ef-1383b4d21d7f%2Ffaith.mp3";
-    // if (points === 5) document.querySelector("audio").src = "https://cdn.glitch.com/0b63aad7-2a93-4811-b8ef-1383b4d21d7f%2FStar%20Wars%20Main%20Theme.mp3";
-    setQuizBtn("You have scored " + points + " points! Click to exit.")
+    if (document.getElementById('answer1').checked === true) points++;
+    if (document.getElementById('answer2').checked === true) points++;
+    if (document.getElementById('answer3').checked === true) points++;
+    if (document.getElementById('answer4').checked === true) points++;
+    if (document.getElementById('answer5').checked === true) points++;
+    if (points < 5) loseSong.current.play();
+    if (points === 5) winQuiz.current.play();
+    setQuizBtn("You have scored " + points + ` ${points === 1 ? 'point' : 'points'}! Click to exit.`)
     quizButton.addEventListener("click", () => {
-    //   document.querySelector("audio").pause();
+      // loseSong.current.pause();
+      // winQuiz.current.pause();
       setDisplayQuiz('none');
     });
   }
@@ -153,17 +156,17 @@ function App() {
       </div>
     </div>
     <div className="container col-xxl-6 profile" style={{display: displayQuiz}}>
-      <form id="quiz">
+      <form id="quiz" onSubmit={(e) => result(e)}>
         {questions.map(element => {
           const {id, question, answer1, answer2, answer3, answer4} = element;
           return (
-            <div className="question" key={id}>
+            <div className="qquestion profile" key={id}>
               <label>{id} - {question}</label>
               <ul>
-                <li><input type="radio" name={`question${id}`} value={answer1} />{answer1}</li>
-                <li><input type="radio" name={`question${id}`} value={answer2} />{answer2}</li>
-                <li><input type="radio" name={`question${id}`} value={answer3} />{answer3}</li>
-                <li><input type="radio" name={`question${id}`} value={answer4} />{answer4}</li>
+                <li><input type="radio" name={`question${id}`} value={answer1} id={`answer${id}`} />&nbsp;{answer1}</li>
+                <li><input type="radio" name={`question${id}`} value={answer2} />&nbsp;{answer2}</li>
+                <li><input type="radio" name={`question${id}`} value={answer3} />&nbsp;{answer3}</li>
+                <li><input type="radio" name={`question${id}`} value={answer4} />&nbsp;{answer4}</li>
               </ul>
             </div>
           )
@@ -180,28 +183,6 @@ function App() {
           enable: false
         },
         fpsLimit: 60,
-        interactivity: {
-          events: {
-            onClick: {
-              enable: true,
-              mode: "push",
-            },
-            onHover: {
-              enable: false,
-              mode: "repulse",
-            },
-            resize: true,
-          },
-          modes: {
-            push: {
-              quantity: 10,
-            },
-            repulse: {
-              distance: 200,
-              duration: 0.4,
-            },
-          },
-        },
         particles: {
           color: {
             value: "#FFFFFF",
@@ -221,7 +202,7 @@ function App() {
             enable: true,
             outModes: "out",
             random: false,
-            speed: .8,
+            speed: .6,
             straight: false,
           },
           number: {
