@@ -1,8 +1,9 @@
 import { useCallback, useState, useRef } from "react";
-import Particles from "react-tsparticles";
 import { loadFull } from "tsparticles";
-import Swal from 'sweetalert2';
 import { questions } from "./questions";
+import Particles from "react-tsparticles";
+import Typewriter from 'typewriter-effect';
+import Swal from 'sweetalert2';
 import cocky from './cocky.mp3';
 import faith from './faith.mp3';
 import throne from './throne.mp3';
@@ -10,10 +11,13 @@ const answer = Math.floor(Math.random() * (905 - 895 + 1) + 895);
 
 function App() {
   const quizButton = document.querySelector("#quizButton");
-  const [myGuess, setMyGuess] = useState('');
   const [quizBtn, setQuizBtn] = useState('May the Force be with me!');
-  const [displayGuess, setDisplayGuess] = useState('block');
+  const [displaySentence, setDisplaySentence] = useState('block');
+  const [displayParts, setDisplayParts] = useState('none');
+  const [displayGuess, setDisplayGuess] = useState('none');
   const [displayQuiz, setDisplayQuiz] = useState('none');
+  const [bg, setBg] = useState('/swbg.jpg');
+  const [myGuess, setMyGuess] = useState('');
   const winSong = useRef(new Audio(cocky));
   const loseSong = useRef(new Audio(faith));
   const winQuiz = useRef(new Audio(throne));
@@ -30,6 +34,25 @@ function App() {
   const handleChange = e => {
     setMyGuess(e.target.value);
   }
+
+  let x = window.matchMedia("(max-width: 650px)");
+  x.onchange = (e) => {mediaQueries(e)};
+
+  function mediaQueries(x) {
+    if (x.matches) {
+      setBg('/swbgsm.jpg');
+    } else {
+      setBg('/swbg.jpg');
+    }
+  }
+  function sentenceDisappear() {
+    setDisplaySentence('none');
+    document.body.style.backgroundImage = `url(${bg})`;
+    setDisplayGuess('block');
+    setDisplayParts('block');
+  }
+  
+  setTimeout(sentenceDisappear, 5500);
 
   function shuffleAnswers(multipleChoice) {
     let elist = document.querySelectorAll(multipleChoice);
@@ -143,6 +166,17 @@ function App() {
 
   return (
     <div className="App">
+      <div id="sentence" style={{display: displaySentence}}>
+        <Typewriter
+          options={{
+            strings: ["A long time ago in a galaxy far, far away...."],
+            cursor: '',
+            delay: 75,
+            autoStart: true,
+            loop: false,
+          }}
+        />
+      </div>
       <div className="container col-xxl-8 p-5 text-center profile" style={{display: displayGuess}}>
         <h3 className="display-5 fw-bold">Smarter than a Wookie you think you are? 😏</h3>
         <div className="col-lg-6 mx-auto">
@@ -175,6 +209,7 @@ function App() {
       </form>
     </div>
     <Particles
+      style={{display: displayParts}}
       id="tsparticles"
       init={particlesInit}
       loaded={particlesLoaded}
