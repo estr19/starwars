@@ -2,9 +2,9 @@ export const questions = [
   {
     text: `What color is Mace Windu's lightsaber?`,
     options: [
-      { id: 0, text: 'PURPLE', isCorrect: true },
+      { id: 0, text: 'BLUE', isCorrect: false },
       { id: 1, text: 'BLACK', isCorrect: false },
-      { id: 2, text: 'BLUE', isCorrect: false },
+      { id: 2, text: 'PURPLE', isCorrect: true },
       { id: 3, text: 'GREEN', isCorrect: false },
     ],
   },
@@ -20,10 +20,10 @@ export const questions = [
   {
     text: 'Approximately how many languages can C-3PO speak?',
     options: [
-      { id: 0, text: '6 MILLION', isCorrect: true },
+      { id: 0, text: '6 BILLION', isCorrect: false },
       { id: 1, text: '6 THOUSAND', isCorrect: false },
       { id: 2, text: '6 TRILLION', isCorrect: false },
-      { id: 3, text: '6 BILLION', isCorrect: false },
+      { id: 3, text: '6 MILLION', isCorrect: true },
     ],
   },
   {
@@ -39,8 +39,8 @@ export const questions = [
     text: 'Who is the commander of the Death Star in A New Hope?',
     options: [
       { id: 0, text: 'LORTH NEEDA', isCorrect: false },
-      { id: 1, text: 'WILHUFF TARKIN', isCorrect: true },
-      { id: 2, text: 'DARTH VADER', isCorrect: true },
+      { id: 1, text: 'DARTH VADER', isCorrect: true },
+      { id: 2, text: 'WILHUFF TARKIN', isCorrect: true },
       { id: 3, text: 'MOFF GIDEON', isCorrect: false },
     ],
   },

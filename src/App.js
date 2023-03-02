@@ -15,7 +15,7 @@ function App() {
   const [displayGuess, setDisplayGuess] = useState("none");
   const [displayQuiz, setDisplayQuiz] = useState("none");
   const [displayQuizBtn, setDisplayQuizBtn] = useState("none");
-  const [bg, setBg] = useState("/swbg.jpg");
+  // const [bg, setBg] = useState();
   const [myGuess, setMyGuess] = useState("");
   const [showResults, setShowResults] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -35,12 +35,12 @@ function App() {
   useEffect(() => {
     const tick = setTimeout(() => {
       setDisplaySentence("none");
-      document.body.style.backgroundImage = `url(${bg})`;
+      document.body.style.backgroundImage = `url("/swbgsm.jpg")`;
       setDisplayGuess("block");
       setDisplayParts("block");
     }, 5500);
     return () => clearInterval(tick);
-  }, [displaySentence, bg]);
+  }, [displaySentence]);
 
   const optionClicked = (isCorrect) => {
     if (isCorrect) {
@@ -50,13 +50,10 @@ function App() {
     if (currentQuestion + 1 < questions.length) {
       setCurrentQuestion(currentQuestion + 1);
     } else {
-      console.log(questions.length)
-      console.log(score);
-      if (score !== questions.length - 1) {
-        loseSong.current.play();
-      }
       if (score === questions.length - 1) {
         winQuiz.current.play();
+      } else {
+        loseSong.current.play();
       }
       setShowResults(true);
     }
@@ -71,18 +68,18 @@ function App() {
     setShowResults(false);
   };
 
-  let x = window.matchMedia("(max-width: 650px)");
-  x.onchange = (e) => {
-    mediaQueries(e);
-  };
+  // let x = window.matchMedia("(max-width: 650px)");
+  // x.onchange = (e) => {
+  //   mediaQueries(e);
+  // };
 
-  function mediaQueries(x) {
-    if (x.matches) {
-      setBg("/swbgsm.jpg");
-    } else {
-      setBg("/swbg.jpg");
-    }
-  }
+  // function mediaQueries(x) {
+  //   if (x.matches) {
+  //     setBg("/swbgsm.jpg");
+  //   } else {
+  //     setBg("/swbg.jpg");
+  //   }
+  // }
 
   const handleChange = (e) => {
     setMyGuess(e.target.value);
@@ -125,7 +122,7 @@ function App() {
         title: `It's a trap!`,
         text: "Way off must you be!!",
         imageUrl:
-          "https://starwarsblog.starwars.com/wp-content/uploads/sites/6/2013/11/04-400x225.jpg",
+          "https://lumiere-a.akamaihd.net/v1/images/image_0d02312b.jpeg", // https://starwarsblog.starwars.com/wp-content/uploads/sites/6/2013/11/04-400x225.jpg
         imageWidth: 400,
         imageHeight: 225,
         imageAlt: "Yoda not happy",
@@ -136,7 +133,7 @@ function App() {
         title: "I have a bad feeling about this...",
         text: "Numbers only must you use",
         imageUrl:
-          "https://starwarsblog.starwars.com/wp-content/uploads/sites/6/2013/11/08-400x225.jpg",
+          "https://lumiere-a.akamaihd.net/v1/images/image_2fd59b97.jpeg", // https://starwarsblog.starwars.com/wp-content/uploads/sites/6/2013/11/08-400x225.jpg
         imageWidth: 400,
         imageHeight: 225,
         imageAlt: "Yoda fail",
@@ -159,7 +156,7 @@ function App() {
           title: "IM-POSSIBLE!",
           text: "Too old you must think I am",
           imageUrl:
-            "https://starwarsblog.starwars.com/wp-content/uploads/sites/6/2013/11/10-400x225.jpg",
+            "https://lumiere-a.akamaihd.net/v1/images/image_c9311401.jpeg", //  https://starwarsblog.starwars.com/wp-content/uploads/sites/6/2013/11/10-400x225.jpg
           imageWidth: 400,
           imageHeight: 225,
           imageAlt: "Yoda try",
@@ -170,7 +167,7 @@ function App() {
         Swal.fire({
           title: "You did it!",
           imageUrl:
-            "https://64.media.tumblr.com/f42a7f41e636ee459cf386c7a626deb5/tumblr_pam1d8dPMr1s0127so2_540.gif",
+            "https://media.giphy.com/media/tp7wl5PVFWuYw/giphy.gif", // https://64.media.tumblr.com/f42a7f41e636ee459cf386c7a626deb5/tumblr_pam1d8dPMr1s0127so2_540.gif
           imageWidth: 400,
           imageHeight: 171,
           imageAlt: "Han Solo one in a million",
@@ -233,7 +230,7 @@ function App() {
         className="container col-xxl-6 profile"
         style={{ display: displayQuiz }}
       >
-        <div id="quiz" className="container col-xxl-8 p-4 text-center profile">
+        <div id="quiz" className="container col-xxl-8 p-4 text-center">
         <h3 className="display-5 fw-bold">
           Smarter than an Ewok you think you are? 😏
         </h3>
@@ -241,8 +238,8 @@ function App() {
           {showResults ? (
             <div className="final-results">
               <h2>
-                You scored {score} out of {questions.length} - (
-                {(score / questions.length) * 100}%)
+                You scored {score} out of {questions.length} - 
+                {(score / questions.length) * 100}%
               </h2>
               <br></br>
               <button id="quizButton" onClick={() => restartGame()}>
