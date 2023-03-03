@@ -45,6 +45,7 @@ function App() {
   const optionClicked = (isCorrect) => {
     if (isCorrect) {
       setScore(score + 1);
+      console.log('correct');
     }
 
     if (currentQuestion + 1 < questions.length) {
@@ -56,6 +57,8 @@ function App() {
         loseSong.current.play();
       }
       setShowResults(true);
+      // console.log(score);
+      // console.log(questions.length);
     }
   };
 
@@ -238,8 +241,7 @@ function App() {
           {showResults ? (
             <div className="final-results">
               <h2>
-                You scored {score} out of {questions.length} - 
-                {(score / questions.length) * 100}%
+                You scored {score} out of {questions.length} - {(score / questions.length) * 100}%
               </h2>
               <br></br>
               <button id="quizButton" onClick={() => restartGame()}>
