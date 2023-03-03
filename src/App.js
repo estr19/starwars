@@ -45,7 +45,7 @@ function App() {
   const optionClicked = (isCorrect) => {
     if (isCorrect) {
       setScore(score + 1);
-      console.log('correct');
+      // console.log('correct');
     }
 
     if (currentQuestion + 1 < questions.length) {
